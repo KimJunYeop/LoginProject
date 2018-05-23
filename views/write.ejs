@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html>
+<title>W3.CSS</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="/stylesheets/style.css">
+<link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Lato">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+
+<body>
+
+  <div class="container">
+    <form id="jy_form">
+
+      <label for="fname">Title</label>
+      <input type="text" id="title" name="title" placeholder="Your Title..">
+
+      <label for="lname">Author</label>
+      <input type="text" id="author" name="author" placeholder="Your Author..">
+
+      <label for="country">Country</label>
+      <select id="country" name="country">
+      <option value="korea">Korea</option>
+      <option value="canada">Canada</option>
+      <option value="usa">USA</option>
+    </select>
+
+      <label for="subject">Description</label>
+      <textarea id="description" name="description" placeholder="Write something.." style="height:200px"></textarea>
+      <input id="my_submit" type="button" class="w3-button w3-green" value="제출">
+    </form>
+  </div>
+
+  <div class="w3-margin" style="width : 30%;">
+    <table class="w3-table">
+      <tr>
+        <th>Title</th>
+        <th>Author</th>
+        <th>Description</th>
+      </tr>
+      <% var split_data = Object.keys(data).toString().split(","); %>
+      <% for(var i = 0 ; i < Object.keys(data).length ; i ++ ) {%>
+        <tr>
+          <td><%= split_data[i]  %></td>
+
+        </tr>
+      <% } %>
+
+      <%= JSON.stringify(data) %>
+      <%= Object.keys(data) %>
+      <!-- <tr>
+        <td>Jill</td>
+        <td>Smith</td>
+        <td>50</td>
+      </tr> -->
+    </table>
+  </div>
+
+
+  <script>
+    // $(document).ready(function() {
+    //
+    //
+    //
+    // });
+
+    $('#my_submit').click(function() {
+      var data = {};
+      data.title = $('#title').val();
+      data.author = $('#author').val();
+      data.country = $('#country').val();
+      data.description = $('#description').val();
+
+      console.log(data);
+
+      $.ajax({
+        type: "post",
+        data: JSON.stringify(data),
+        dataType: 'json',
+        url: "/write",
+        contentType: 'application/json',
+        success: function(data) {
+          console.log('success!')
+          console.log(data);
+          if (data.success == true) {
+            console.log('data 등록 성공');
+          } else {
+            console.log('data 등록 실패');
+          }
+        },
+        complete: function() {
+          console.log('complete!');
+        },
+      });
+    })
+  </script>
+
+</body>
+
+</html>
