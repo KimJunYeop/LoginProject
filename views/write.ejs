@@ -10,7 +10,7 @@
 
 <body>
 
-  <div class="container">
+  <div class="container" style="width:50%; margin : 0 auto;">
     <form id="jy_form">
 
       <label for="fname">Title</label>
@@ -32,70 +32,45 @@
     </form>
   </div>
 
-  <div class="w3-margin" style="width : 30%;">
-    <table class="w3-table">
-      <tr>
-        <th>Title</th>
-        <th>Author</th>
-        <th>Description</th>
-      </tr>
-      <% var split_data = Object.keys(data).toString().split(","); %>
-      <% for(var i = 0 ; i < Object.keys(data).length ; i ++ ) {%>
-        <tr>
-          <td><%= split_data[i]  %></td>
+  <div clas="row w3-margin">
+    <div class="w3-half" style="margin-top : 30px;">
+      <table id="contents_table" class="w3-table w3-striped w3-border">
+        <thead>
+          <tr>
+            <th>Title</th>
+            <th>Country</th>
+            <th>Author</th>
+          </tr>
+        </thead>
+        <tbody>
+          <% var split_data = Object.keys(data).toString().split(","); %>
+            <% for(var i = 0 ; i < Object.keys(data).length ; i ++ ) {%>
+              <tr>
+                <td><%= split_data[i]  %></td>
+                <td><%= JSON.parse(data[split_data[i]]).country %></td>
+                <td><%= JSON.parse(data[split_data[i]]).author %></td>
+              </tr>
+          <% } %>
+        </tbody>
+      </table>
+    </div>
 
-        </tr>
-      <% } %>
+    <div id="desc_div" class="w3-half w3-border" style="margin-top : 30px;">
+      <div class="w3-center">
+        <h2>description </h2>
+        <hr>
+        <p id="desc_p"></p>
+      </div>
 
-      <%= JSON.stringify(data) %>
-      <%= Object.keys(data) %>
-      <!-- <tr>
-        <td>Jill</td>
-        <td>Smith</td>
-        <td>50</td>
-      </tr> -->
-    </table>
+    </div>
+    <div class="w3-right">
+      <button id="next_btn" class="w3-btn w3-green">다음</button>
+    </div>
   </div>
 
 
-  <script>
-    // $(document).ready(function() {
-    //
-    //
-    //
-    // });
 
-    $('#my_submit').click(function() {
-      var data = {};
-      data.title = $('#title').val();
-      data.author = $('#author').val();
-      data.country = $('#country').val();
-      data.description = $('#description').val();
-
-      console.log(data);
-
-      $.ajax({
-        type: "post",
-        data: JSON.stringify(data),
-        dataType: 'json',
-        url: "/write",
-        contentType: 'application/json',
-        success: function(data) {
-          console.log('success!')
-          console.log(data);
-          if (data.success == true) {
-            console.log('data 등록 성공');
-          } else {
-            console.log('data 등록 실패');
-          }
-        },
-        complete: function() {
-          console.log('complete!');
-        },
-      });
-    })
-  </script>
-
+<script src="javascripts/write.js"></script>
 </body>
 
 </html>
